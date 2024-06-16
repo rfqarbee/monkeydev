@@ -1,0 +1,37 @@
+name: fourfingers
+
+on:
+  push:
+    tags :
+      - 'v*-production'
+
+jobs:
+  # checkout branch using github api
+  checkout_deploy_branch:
+    name: Checkout Branch to Deploy
+    runs-on: [self-hosted, linux, x64, flutter_runner]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'deploy'
+  # build ios bundle
+  # build_ios  :
+    # ....
+  # build android bundle (.aab, .apk)
+  build_android:
+    name: Build Android Bundle
+    needs: checkout_deploy_branch
+    # if cond to run jobs base on repo in org
+    # if : ${{github.repository == '@reponame'}}
+    runs-on: [self-hosted, linux, x64, flutter_runner]
+    steps:
+      - run: cd "android/fastlane" && fastlane build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: something
+          path: 'build/android/app/outputs/bundle/app-release.apk'
+          retention-days: 1
+          overwrite : 'true'
+
+env:
+  LANG: en_US.UTF-8
