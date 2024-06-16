@@ -9,7 +9,7 @@ jobs:
   # checkout branch using github api
   checkout_deploy_branch:
     name: Checkout Branch to Deploy
-    runs-on: [self-hosted, linux, x64, flutter_runner]
+    runs-on: [self-hosted, linux, x64, monkey-runner]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +23,7 @@ jobs:
     needs: checkout_deploy_branch
     # if cond to run jobs base on repo in org
     # if : ${{github.repository == '@reponame'}}
-    runs-on: [self-hosted, linux, x64, flutter_runner]
+    runs-on: [self-hosted, linux, x64, monkey-runner]
     steps:
       - run: cd "android/fastlane" && fastlane build
       - uses: actions/upload-artifact@v4
