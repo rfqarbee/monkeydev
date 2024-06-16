@@ -25,11 +25,11 @@ jobs:
     # if : ${{github.repository == '@reponame'}}
     runs-on: [self-hosted, linux, x64, monkey-runner]
     steps:
-      - run: cd "android/fastlane" && fastlane build
+      - run: cd "android/fastlane" && flutter build appbundle --release
       - uses: actions/upload-artifact@v4
         with:
           name: something
-          path: 'build/android/app/outputs/bundle/app-release.apk'
+          path: 'build/android/app/outputs/bundle/app-release.aab'
           retention-days: 1
           overwrite : 'true'
 
